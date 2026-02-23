@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
   <title>Birthday Protocol</title>
 
   <meta name="description" content="Open the ticket 🎟️" />
@@ -25,9 +26,10 @@
   <meta name="twitter:description" content="Open the ticket 🎟️" />
   <meta name="twitter:image" content="https://avneeshmatharoo.github.io/birthday_protocol/og.png" />
 
+  <meta name="theme-color" content="#050817" />
+
   <style>
     :root{
-      /* ====== Retro Navy UI (sharp edges) ====== */
       --bg0:#050817;
       --bg1:#071027;
       --bg2:#0b1a3b;
@@ -39,13 +41,12 @@
       --accentPink:#ff3b7a;
       --accentGold:#ffd24a;
 
-      --border: 2px solid rgba(78,252,255,.22);
-      --border2: 2px solid rgba(255,59,122,.22);
+      --borderCyan: 2px solid rgba(78,252,255,.22);
+      --borderPink: 2px solid rgba(255,59,122,.22);
 
       --shadow: 0 24px 55px rgba(0,0,0,.55), 0 10px 18px rgba(0,0,0,.35);
       --inner: inset 0 0 0 1px rgba(255,255,255,.05);
 
-      --radius: 0px; /* sharp */
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
@@ -60,55 +61,33 @@
         radial-gradient(900px 600px at 25% 70%, rgba(255,59,122,.14), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg2));
       overflow-x:hidden;
+      -webkit-text-size-adjust: 100%;
     }
 
-    /* ====== Subtle CRT grid ====== */
-    .grid{
-      position:fixed; inset:0;
-      pointer-events:none;
-      background:
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 1px, transparent 70px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px, transparent 1px, transparent 70px);
-      mix-blend-mode:overlay;
-      opacity:.35;
-      z-index:0;
-    }
-    .scan{
-      position:fixed; inset:-40px 0 0 0;
-      pointer-events:none;
-      background:linear-gradient(180deg, transparent 0, rgba(255,255,255,.06) 45%, transparent 55%);
-      opacity:.12;
-      animation:scan 6s linear infinite;
-      z-index:0;
-    }
-    @keyframes scan{
-      0%{transform:translateY(-20%);}
-      100%{transform:translateY(120%);}
-    }
-
+    /* robust min-height on mobile */
     .wrap{
-      position:relative;
-      z-index:1;
-      min-height:100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
       display:flex;
       align-items:center;
       justify-content:center;
       padding:40px 18px;
+      box-sizing:border-box;
     }
 
     .frame{
       width:min(920px, 100%);
-      border:var(--border);
+      border:var(--borderCyan);
       box-shadow:var(--shadow), var(--inner);
-      background:
-        linear-gradient(180deg, rgba(5,8,23,.78), rgba(11,26,59,.78));
+      background: linear-gradient(180deg, rgba(5,8,23,.82), rgba(11,26,59,.82));
       position:relative;
     }
-    /* Outer chrome border */
+
     .frame::before{
       content:"";
       position:absolute; inset:10px;
-      border:var(--border2);
+      border:var(--borderPink);
       pointer-events:none;
     }
 
@@ -118,18 +97,19 @@
       justify-content:space-between;
       padding:18px 22px 14px;
       border-bottom:1px solid rgba(255,255,255,.08);
-      background:
-        linear-gradient(90deg, rgba(78,252,255,.08), rgba(255,59,122,.05) 60%, rgba(255,210,74,.06));
+      background: linear-gradient(90deg, rgba(78,252,255,.08), rgba(255,59,122,.05) 60%, rgba(255,210,74,.06));
     }
 
     .brand{
       display:flex;
       gap:14px;
       align-items:center;
+      min-width: 0;
     }
+
     .badge{
       width:46px; height:46px;
-      border:var(--border);
+      border:var(--borderCyan);
       display:grid;
       place-items:center;
       font-family:var(--mono);
@@ -137,20 +117,33 @@
       letter-spacing:.08em;
       color:var(--accentCyan);
       background:rgba(0,0,0,.25);
+      flex: 0 0 auto;
     }
+
+    .title{
+      min-width:0;
+    }
+
     .title h1{
       margin:0;
       font-size:18px;
       letter-spacing:.14em;
       text-transform:uppercase;
       font-family:var(--mono);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
+
     .title p{
       margin:2px 0 0;
       font-size:12px;
       color:var(--muted);
       letter-spacing:.05em;
       font-family:var(--mono);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .status{
@@ -162,11 +155,13 @@
       letter-spacing:.08em;
       text-transform:uppercase;
       color:var(--muted);
+      flex: 0 0 auto;
     }
+
     .dot{
       width:10px; height:10px;
       background:var(--accentCyan);
-      box-shadow:0 0 18px rgba(78,252,255,.9);
+      box-shadow:0 0 14px rgba(78,252,255,.75);
       border:1px solid rgba(0,0,0,.5);
     }
 
@@ -175,9 +170,12 @@
       display:grid;
       grid-template-columns: 1.2fr .8fr;
       gap:22px;
+      box-sizing:border-box;
     }
+
     @media (max-width: 820px){
-      .content{grid-template-columns:1fr; }
+      .content{grid-template-columns:1fr;}
+      .header{gap:12px;}
     }
 
     .panel{
@@ -185,7 +183,9 @@
       background:rgba(0,0,0,.18);
       padding:18px;
       position:relative;
+      box-sizing:border-box;
     }
+
     .panel::before{
       content:"";
       position:absolute; inset:0;
@@ -201,6 +201,7 @@
       text-transform:uppercase;
       color:var(--accentGold);
     }
+
     .panel p{
       margin:0 0 12px;
       color:rgba(233,240,255,.88);
@@ -209,14 +210,18 @@
     }
 
     .callout{
-      border:var(--border);
+      border:var(--borderCyan);
       padding:14px 14px 12px;
       background:rgba(78,252,255,.07);
       font-family:var(--mono);
       font-size:12px;
       letter-spacing:.06em;
+      line-height:1.45;
+      word-break:break-word;
     }
+
     .callout strong{color:var(--accentCyan);}
+    .callout code{color:rgba(233,240,255,.85);}
 
     .ticket{
       display:grid;
@@ -224,7 +229,7 @@
     }
 
     .ticketCard{
-      border:var(--border2);
+      border:var(--borderPink);
       background:
         radial-gradient(600px 250px at 30% 20%, rgba(255,59,122,.18), transparent 60%),
         radial-gradient(500px 220px at 70% 70%, rgba(78,252,255,.12), transparent 60%),
@@ -232,14 +237,19 @@
       padding:16px;
       position:relative;
       overflow:hidden;
+      box-sizing:border-box;
     }
+
+    /* simple sheen without blend-mode */
     .ticketCard::after{
       content:"";
-      position:absolute; inset:-80px -60px auto -60px;
-      height:180px;
-      transform:rotate(-6deg);
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
-      opacity:.35;
+      position:absolute;
+      inset:-120px -80px auto -80px;
+      height:220px;
+      transform:rotate(-8deg);
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
+      opacity:.28;
+      pointer-events:none;
     }
 
     .row{
@@ -253,19 +263,26 @@
       color:var(--muted);
       margin-bottom:8px;
     }
+
     .row span:last-child{color:var(--ink);}
 
+    /* Gradient text with safe fallback */
     .big{
       margin:10px 0 2px;
       font-size:34px;
       font-weight:800;
       letter-spacing:.02em;
       line-height:1.05;
-      text-transform:none;
-      color:transparent;
-      background:linear-gradient(90deg, var(--accentPink), var(--accentCyan));
-      -webkit-background-clip:text;
-      background-clip:text;
+      color: var(--accentCyan); /* fallback */
+    }
+
+    @supports ((-webkit-background-clip:text) or (background-clip:text)){
+      .big{
+        color:transparent;
+        background:linear-gradient(90deg, var(--accentPink), var(--accentCyan));
+        -webkit-background-clip:text;
+        background-clip:text;
+      }
     }
 
     .subtitle{
@@ -282,9 +299,10 @@
       gap:10px;
       margin-top:12px;
     }
+
     button{
       cursor:pointer;
-      border:var(--border);
+      border:var(--borderCyan);
       background:rgba(0,0,0,.25);
       color:var(--ink);
       padding:10px 12px;
@@ -292,13 +310,13 @@
       font-size:12px;
       letter-spacing:.10em;
       text-transform:uppercase;
-      border-radius:var(--radius);
+      border-radius:0;
       transition:transform .08s ease, box-shadow .15s ease;
+      touch-action:manipulation;
     }
-    button:hover{
-      transform:translateY(-1px);
-      box-shadow:0 0 0 2px rgba(78,252,255,.15), 0 10px 20px rgba(0,0,0,.35);
-    }
+
+    button:hover{ transform:translateY(-1px); }
+
     button.primary{
       border:2px solid rgba(255,210,74,.45);
       background:rgba(255,210,74,.10);
@@ -315,7 +333,20 @@
       min-height:40px;
     }
 
-    /* hidden modal */
+    .footer{
+      padding:12px 22px 18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      color:rgba(168,183,230,.75);
+      font-family:var(--mono);
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    /* Modal */
     .modal{
       position:fixed; inset:0;
       background:rgba(0,0,0,.65);
@@ -328,11 +359,12 @@
     .modal.open{display:flex;}
     .modalCard{
       width:min(720px,100%);
-      border:var(--border);
-      background:linear-gradient(180deg, rgba(5,8,23,.92), rgba(11,26,59,.92));
+      border:var(--borderCyan);
+      background:linear-gradient(180deg, rgba(5,8,23,.94), rgba(11,26,59,.94));
       box-shadow:var(--shadow);
       padding:18px;
       position:relative;
+      box-sizing:border-box;
     }
     .modalCard h3{
       margin:0 0 10px;
@@ -360,24 +392,14 @@
       text-transform:uppercase;
       font-size:11px;
     }
-    .footer{
-      padding:12px 22px 18px;
-      border-top:1px solid rgba(255,255,255,.08);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      color:rgba(168,183,230,.75);
-      font-family:var(--mono);
-      font-size:11px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important;}
     }
   </style>
 </head>
-<body>
-  <div class="grid"></div>
-  <div class="scan"></div>
 
+<body>
   <div class="wrap">
     <div class="frame" role="main" aria-label="Birthday Protocol Ticket">
       <div class="header">
@@ -398,8 +420,9 @@
         <section class="panel">
           <h2>Instructions</h2>
           <p>This is your official ticket. Click <strong>Open</strong>, follow the protocol, and you’re in.</p>
+
           <div class="callout">
-            <div><strong>NOTE:</strong> Link previews will show the image <code>og.png</code> from your GitHub Pages URL.</div>
+            <div><strong>Preview image:</strong> this page will unfurl with <code>og.png</code> when shared.</div>
           </div>
 
           <div class="btns">
@@ -427,13 +450,13 @@
           </div>
 
           <div class="callout">
-            <div><strong>Share link:</strong> paste your GitHub Pages URL in chat apps to get the preview image.</div>
+            <div><strong>Share link:</strong> use the Pages URL. If previews lag, append <code>?v=2</code>.</div>
           </div>
         </aside>
       </div>
 
       <div class="footer">
-        <div>v1.0 • birthday_protocol</div>
+        <div>v1.1 • birthday_protocol</div>
         <div id="clock">00:00:00</div>
       </div>
     </div>
@@ -464,9 +487,7 @@
 
     const clockEl = document.getElementById('clock');
 
-    function setLog(msg){
-      logEl.textContent = msg;
-    }
+    function setLog(msg){ logEl.textContent = msg; }
 
     function openModal(title, body){
       modalTitle.textContent = title;
@@ -487,7 +508,7 @@
     openBtn.addEventListener('click', ()=>{
       setLog('Opening protocol…');
       openModal('Access Granted', 'Welcome. This ticket is valid for maximum birthday energy. Proceed accordingly.');
-      setTimeout(()=>setLog('Protocol opened ✅'), 500);
+      setTimeout(()=>setLog('Protocol opened ✅'), 450);
     });
 
     copyBtn.addEventListener('click', async ()=>{
@@ -496,12 +517,12 @@
         await navigator.clipboard.writeText(url);
         setLog('Link copied ✅');
       }catch(e){
-        setLog('Copy failed — select the URL manually.');
+        setLog('Copy failed — copy the URL manually.');
       }
     });
 
     hintBtn.addEventListener('click', ()=>{
-      openModal('Hint', 'If the link preview doesn’t update immediately, try sharing with a cache-busting suffix like ?v=2');
+      openModal('Hint', 'If an app shows an older/cached version, open the link with ?v=2 (or ?v=3) to force refresh.');
     });
 
     function tick(){
